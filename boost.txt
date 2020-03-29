@@ -1,0 +1,11 @@
+
+//boost
+#include <boost/multiprecision/cpp_int.hpp>
+
+using namespace boost::multiprecision;
+
+
+
+//fast io
+ios_base::sync_with_stdio(false);
+    cin.tie(NULL);

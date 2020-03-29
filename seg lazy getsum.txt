@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long update(long long bit[],long long lazy[],long long val1,long long val2,long long val3,long long l,long long r,long long idx)
+{
+    long long mid=(l+r)/2;
+    if(l>r)
+    return 0;
+    if(lazy[idx]!=0)
+    {
+        bit[idx]+=lazy[idx];
+        if(l!=r){
+        lazy[2*idx+1]+=lazy[idx];
+        lazy[2*idx+2]+=lazy[idx];}
+        lazy[idx]=0;
+    }
+    //out of bound
+    if(r<val1||val2<l)
+    return 0;
+    //total
+    if(l>=val1&&r<=val2)
+    {
+        bit[idx]+=(r-l+1)*val3;
+        if(l!=r)
+        {
+            lazy[2*idx+1]+=val3;
+            lazy[2*idx+2]+=val3;
+        }
+        return 0;
+    }
+    //partial
+        update(bit,lazy,val1,val2,val3,l,mid,2*idx+1);
+        update(bit,lazy,val1,val2,val3,mid+1,r,2*idx+2);
+        bit[idx]=bit[2*idx+1]+bit[2*idx+2];
+}
+long long getsum(long long bit[],long long lazy[],long long val1,long long val2,long long l,long long r,long long idx)
+{
+    long long mid=(l+r)/2;
+    if(lazy[idx]!=0)
+    {
+        bit[idx]+=(r-l+1)*lazy[idx];
+        if(l!=r)
+        {
+            lazy[2*idx+1]+=lazy[idx];
+            lazy[2*idx+2]+=lazy[idx];
+        }
+        lazy[idx]=0;
+    }
+    if(l>r||val1>r||val2<l)
+    return 0;
+    if(val1<=l&&val2>=r)
+    {
+        return bit[idx];
+    }
+    return getsum(bit,lazy,val1,val2,l,mid,2*idx+1)+getsum(bit,lazy,val1,val2,mid+1,r,2*idx+2);
+}
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    long long q,n;
+    cin>>n;cin>>q;
+    long long height=ceil(log2(n));
+    long long max=2*pow(2,height)-1;
+    long long bit[max]={0},lazy[max]={0};
+    long long key,val1,val2;
+    while(q--)
+    {
+        cin>>key;
+        switch(key)
+        {
+            case 1:
+            {
+                cin>>val1;
+                val1--;
+            update(bit,lazy,val1,val1,1,0,n-1,0);
+            break;
+            }
+            case 2:
+            {
+                cin>>val1;
+                val1--;
+              update(bit,lazy,val1,val1,-1,0,n-1,0);
+              break;
+            }
+            case 3:
+            {
+                cin>>val1>>val2;
+                val1--;val2--;
+                cout<<getsum(bit,lazy,val1,val2,0,n-1,0)<<endl;
+            }
+        }
+    }
+}

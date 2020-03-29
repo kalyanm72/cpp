@@ -1,0 +1,11 @@
+   for (int i = 1 ; i <= n ; i ++) {
+    	for (int k = 1 ; k < 60 ; k ++) {
+    		int x = (~fact[k]) & ((1 << 17) - 1);
+    		for (int s = x ; ; s = (s - 1) & x) {
+                if (dp[i - 1][s] + abs(a[i] - k) < dp[i][s | fact[k]]){
+                    dp[i][s | fact[k]] = dp[i-1][s] + abs(a[i]-k);
+                }
+    		if (s == 0) break;
+            }
+    	}
+    

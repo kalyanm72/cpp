@@ -1,0 +1,78 @@
+import java.util.*;
+public class Main
+{
+    static class Node
+    {
+        int key;
+         Node left,right;
+         Node(int key)
+         {
+             this.key=key;
+             left=null;
+             right=null;
+         }
+    }
+    static Node root;
+    static Node temp=root;
+    static void inorder(Node temp)
+    {
+        if(temp==null)
+        return;
+        inorder(temp.left);
+        System.out.print(temp.key+" ");
+        inorder(temp.right);
+    }
+    static void del(Node temp,Node no)
+    {
+        Queue<Node>q=new LinkedList<Node>();
+        q.add(temp);
+        while(!q.isEmpty())
+        {
+            temp=q.peek();
+            q.remove();
+            if(temp.right!=null){
+            if(temp.right==no){
+            temp.right=null;}
+                else
+                q.add(temp.right);
+            }
+            if(temp.left!=null){
+            if(temp.left==no){
+            temp.left=null;}
+                else
+                q.add(temp.left);
+            }
+        }
+    }static Node prev=null;
+     static void delete(Node temp,int key)
+    {
+        Queue<Node> q=new LinkedList<Node>();
+        q.add(temp);
+        
+        while(!q.isEmpty())
+        {
+            temp=q.peek();
+            q.remove();
+            if(temp.key==key)
+            prev=temp;
+            if(temp.left!=null)
+            q.add(temp.left);
+            if(temp.right!=null)
+            q.add(temp.right);
+        }
+        prev.key=temp.key;
+        del(root,temp);
+    }
+    public static void main(String args[])
+    {
+        root=new Node(1);
+        root.left=new Node(2);
+        root.right=new Node(3);
+        root.left.left=new Node(4);
+        root.left.right=new Node(5);
+        root.right.left=new Node(6);
+        inorder(root);
+        delete(root,5);
+        inorder(root);
+    }
+}
