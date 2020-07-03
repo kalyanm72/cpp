@@ -48,10 +48,11 @@ struct lca{
         l = ceil(log2(n));
         up.assign(n, vector<int>(l + 1));
         adj.resize(n);
-        dfs(root,root);
+        // dfs(root,root);
     }
     //lca.init(n,root)
     //lca.preprocess()
+    //lca.dfs
     //lca.add_edge(u,v)
     //lcd.solve(u,v);
 };

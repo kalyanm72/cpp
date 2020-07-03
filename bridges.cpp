@@ -28,7 +28,7 @@ void init(){
     timer = 0;
     visited.assign(n, false);
     tin.assign(n, -1);
-    low.assign(n, -1);
+    low.assign(n, inf);
 }
 void find_bridges() {
     for (int i = 0; i < n; ++i) {
